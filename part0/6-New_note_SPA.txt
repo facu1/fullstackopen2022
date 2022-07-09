@@ -1,0 +1,13 @@
+note over browser:
+browser creates a new note, adds it to the
+notes list, rerenders the note list on the
+page and sends the new note to the server
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over server:
+server responds with status code 201 created
+end note
+
+server-->browser: {"message":"note created"}
