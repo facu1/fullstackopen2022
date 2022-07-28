@@ -19,14 +19,23 @@ const Statistic = ({ text, value }) => (
   <div>{text} {value}</div>
 )
 
-const Statistics = ({ good, neutral, bad }) => (
-  <>
-    <Title text='statistics' />
-    <Statistic text='good' value={good}/>
-    <Statistic text='neutral' value={neutral}/>
-    <Statistic text='bad' value={bad}/>
-  </>
-)
+const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad
+  const average = (good * 1 + bad * -1) / all
+  const positive = good * 100 / all
+  
+  return (
+    <>
+      <Title text='statistics' />
+      <Statistic text='good' value={good}/>
+      <Statistic text='neutral' value={neutral}/>
+      <Statistic text='bad' value={bad}/>
+      <Statistic text='all' value={all}/>
+      <Statistic text='average' value={average}/>
+      <Statistic text='positive' value={positive}/>
+    </>
+  )
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
