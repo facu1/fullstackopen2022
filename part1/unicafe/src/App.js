@@ -2,18 +2,7 @@ import { useState } from 'react'
 
 const Title = ({ text }) => <h1>{text}</h1>
 
-const Button = ({ handleClick, text }) => (
-  <button onClick={handleClick}>{text}</button>
-)
-
-const Feedback = ({ handleClickGood, handleClickNeutral, handleClickBad }) => (
-  <div>
-    <Title text='give feedback' />
-    <Button handleClick={handleClickGood} text='good' />
-    <Button handleClick={handleClickNeutral} text='neutral' />
-    <Button handleClick={handleClickBad} text='bad' />
-  </div>
-)
+const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const StatisticLine = ({ text, value }) => (
   <tr>
@@ -27,10 +16,10 @@ const Statistics = ({ good, neutral, bad }) => {
 
   if (all === 0) {
     return (
-      <>
+      <div>
         <Title text='statistics' />
         <div>No feedback given</div>
-      </>
+      </div>
     )
   }
 
@@ -38,7 +27,7 @@ const Statistics = ({ good, neutral, bad }) => {
   const positive = good * 100 / all
   
   return (
-    <>
+    <div>
       <Title text='statistics' />
       <table>
         <tbody>
@@ -50,7 +39,7 @@ const Statistics = ({ good, neutral, bad }) => {
           <StatisticLine text='positive' value={positive}/>
         </tbody>
       </table>
-    </>
+    </div>
   )
 }
 
@@ -59,13 +48,16 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const handleClickGood = () => setGood(good + 1)
+  const handleClickNeutral = () => setNeutral(neutral + 1)
+  const handleClickBad = () => setBad(bad + 1)
+
   return (
     <>
-      <Feedback
-        handleClickGood={() => setGood(good + 1)}
-        handleClickNeutral={() => setNeutral(neutral + 1)}
-        handleClickBad={() => setBad(bad + 1)}
-      />
+      <Title text='give feedback' />
+      <Button onClick={handleClickGood} text='good' />
+      <Button onClick={handleClickNeutral} text='neutral' />
+      <Button onClick={handleClickBad} text='bad' />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </>
   )
