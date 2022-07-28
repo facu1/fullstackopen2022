@@ -1,10 +1,14 @@
 import Content from "./Content"
 import Header from "./Header"
+import Total from "./Total"
 const Course = ({ course }) => {
+  const { name, parts } = course
+
   return (
     <>
-      <Header text={course.name} />
-      <Content parts={course.parts} />
+      <Header text={name} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </>
   )
 }

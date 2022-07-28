@@ -1,5 +1,3 @@
-const Part = ({ text, exercises}) => {
-  return <div>{text} {exercises}</div>
-}
+const Part = ({ text, exercises}) => <div>{text} {exercises}</div>
 
 export default Part
