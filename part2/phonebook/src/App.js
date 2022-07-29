@@ -50,9 +50,9 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={filter} handleChange={handleChangeFilter} />
-      <h2>add a new</h2>
+      <h3>add a new</h3>
       <PersonForm handleSubmit={addPerson} nameValue={newName} handleChangeName={handleChangeName} numberValue={newNumber} handleChangeNumber={handleChangeNumber} />
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
       <Persons persons={personsToShow} />
     </div>
   );
