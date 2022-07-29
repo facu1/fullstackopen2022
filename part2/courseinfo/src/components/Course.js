@@ -5,11 +5,11 @@ const Course = ({ course }) => {
   const { name, parts } = course
 
   return (
-    <>
+    <div>
       <Header text={name} />
       <Content parts={parts} />
       <Total parts={parts} />
-    </>
+    </div>
   )
 }
 
