@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Filter from './components/Filter'
-import CondicionalView from './components/CondicionalView';
+import ConditionalView from './components/ConditionalView';
 
 function App() {
   const [countries, setCountries] = useState([])
@@ -13,8 +13,10 @@ function App() {
       .then(({ data }) => setCountries(data))
   } , [])
 
-  const handleChange = (e) => {
-    setFilter(e.target.value)
+  const handleChange = ({ target }) => {
+    const { value } = target
+
+    setFilter(value)
   }
 
   const handleClick = (name) => {
@@ -30,7 +32,7 @@ function App() {
   return (
     <div>
       <Filter value={filter} handleChange={handleChange} />
-      <CondicionalView countries={countriesToShow} handleClick={handleClick} />
+      <ConditionalView countries={countriesToShow} handleClick={handleClick} />
     </div>
   );
 }
