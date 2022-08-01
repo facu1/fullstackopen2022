@@ -1,4 +1,12 @@
 const WeatherData = ({ capital, weather }) => {
+  if (!weather) {
+    return (
+      <div>
+        <h3>Weather in {capital}</h3>
+      </div>
+    )
+  }
+
   const { main, weather: weatherInfo, wind } = weather
   const { temp } = main
   const { icon } = weatherInfo[0]
@@ -6,6 +14,7 @@ const WeatherData = ({ capital, weather }) => {
 
   return (
     <div>
+      <h3>Weather in {capital}</h3>
       <div>temperature {temp} Celcius</div>
       <img
         src={`https://openweathermap.org/img/wn/${icon}@2x.png`}

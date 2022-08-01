@@ -36,10 +36,7 @@ const CountryData = ({ country }) => {
         }
       </ul>
       <img src={flagImg} width={150} alt={`${commonName} Flag`} />
-      <h3>Weather in {firstCapital}</h3>
-      {
-        weather && <WeatherData capital={firstCapital} weather={weather} />
-      }
+      <WeatherData capital={firstCapital} weather={weather} />
     </div>
   )
 }
