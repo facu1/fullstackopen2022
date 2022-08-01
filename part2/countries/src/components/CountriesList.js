@@ -1,9 +1,9 @@
-const CountriesList = ({ countries }) => (
+import CountriesListItem from "./CountriesListItem"
+
+const CountriesList = ({ countries, handleClick }) => (
   <div>
     {countries.map(({ name, tld }) => (
-      <div key={tld[0]}>
-        {name.common}
-      </div>
+      <CountriesListItem key={tld[0]} name={name.common} handleClick={handleClick} />
     ))}
   </div>
 )

@@ -17,6 +17,10 @@ function App() {
     setFilter(e.target.value)
   }
 
+  const handleClick = (name) => {
+    setFilter(name)
+  }
+
   const countriesToShow = filter
     ? countries
         .filter(({ name }) =>
@@ -26,7 +30,7 @@ function App() {
   return (
     <div>
       <Filter value={filter} handleChange={handleChange} />
-      <CondicionalView countries={countriesToShow} />
+      <CondicionalView countries={countriesToShow} handleClick={handleClick} />
     </div>
   );
 }
