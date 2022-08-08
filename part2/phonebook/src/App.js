@@ -11,8 +11,9 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
+    const url = 'http://localhost:3001/persons'
     axios
-      .get('http://localhost:3001/persons')
+      .get(url)
       .then(({ data }) => {
         setPersons(data)
       })
@@ -26,12 +27,20 @@ const App = () => {
     }
     const personObject = {
       name: newName,
-      number: newNumber,
-      id: persons.length + 1
+      number: newNumber
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    const url = 'http://localhost:3001/persons'
+
+    axios
+      .post(url, personObject)
+      .then(({ data: person }) => {
+        setPersons(persons.concat(person))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch((error) => {
+        alert('Error adding new contact')
+      })
   }
 
   const handleChangeName = (e) => {
