@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [notificationMsg, setNotificationMsg] = useState('')
+  const [notification, setNotification] = useState({msg: '', isSuccessful: true})
 
   useEffect(() => {
     personService
@@ -34,13 +34,16 @@ const App = () => {
             setPersons(persons.map((person) => person.id !== oldPerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
-            setNotificationMsg(`Number of ${oldPerson.name} updated`)
+            setNotification({msg: `Number of ${oldPerson.name} updated`, isSuccessful: true})
             setTimeout(() => {
-              setNotificationMsg('')
+              setNotification('')
             }, 5000)
           })
           .catch(() => {
-            alert(`${oldPerson.name} was already deleted from server`)
+            setNotification({msg: `Information of ${oldPerson.name} has already been removed from server`, isSuccessful: false})
+            setTimeout(() => {
+              setNotification('')
+            }, 5000);
           })
       }
       return
@@ -55,13 +58,17 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        setNotificationMsg(`Added ${returnedPerson.name}`)
+        setNotification({msg: `Added ${returnedPerson.name}`, isSuccessful: true})
         setTimeout(() => {
-          setNotificationMsg('')
+          setNotification('')
         }, 5000);
       })
       .catch(() => {
-        alert('Error adding new contact')
+        setNotification({msg: 'Error adding new contact', isSuccessful: false})
+        setTimeout(() => {
+          setNotification('')
+        }, 5000);
+        alert()
       })
   }
 
@@ -69,11 +76,20 @@ const App = () => {
     personService
       .remove(id)
       .then(() => {
+        const person = persons.find(person => person.id === id)
+        setNotification({msg: `Removed ${person.name}`, isSuccessful: true})
+        setTimeout(() => {
+          setNotification('')
+        }, 5000);
         setPersons(persons.filter(person => person.id !== id))
       })
       .catch(() => {
         const person = persons.find(person => person.id === id)
-        alert(`${person.name} was already deleted from server`)
+        setNotification({msg: `Information of ${person.name} has already been removed from server`, isSuccessful: false})
+        setTimeout(() => {
+          setNotification('')
+        }, 5000);
+        setPersons(persons.filter(person => person.id !== id))
       })
   }
 
@@ -96,7 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMsg} />
+      <Notification notification={notification} />
       <Filter value={filter} handleChange={handleChangeFilter} />
       <h3>add a new</h3>
       <PersonForm handleSubmit={addPerson} nameValue={newName} handleChangeName={handleChangeName} numberValue={newNumber} handleChangeNumber={handleChangeNumber} />
