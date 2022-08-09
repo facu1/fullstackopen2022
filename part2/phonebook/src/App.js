@@ -40,6 +40,18 @@ const App = () => {
       })
   }
 
+  const removePerson = (id) => {
+    personService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      .catch(() => {
+        const person = persons.find(person => person.id === id)
+        alert(`${person.name} was already deleted from server`)
+      })
+  }
+
   const handleChangeName = (e) => {
     setNewName(e.target.value)
   }
@@ -63,7 +75,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm handleSubmit={addPerson} nameValue={newName} handleChangeName={handleChangeName} numberValue={newNumber} handleChangeNumber={handleChangeNumber} />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleRemove={removePerson} />
     </div>
   );
 }
