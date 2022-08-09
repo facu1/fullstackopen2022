@@ -3,12 +3,14 @@ import personService from "./services/persons"
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notificationMsg, setNotificationMsg] = useState('')
 
   useEffect(() => {
     personService
@@ -30,6 +32,12 @@ const App = () => {
           .update(oldPerson.id, personObject)
           .then((returnedPerson) => {
             setPersons(persons.map((person) => person.id !== oldPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+            setNotificationMsg(`Number of ${oldPerson.name} updated`)
+            setTimeout(() => {
+              setNotificationMsg('')
+            }, 5000)
           })
           .catch(() => {
             alert(`${oldPerson.name} was already deleted from server`)
@@ -47,6 +55,10 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        setNotificationMsg(`Added ${returnedPerson.name}`)
+        setTimeout(() => {
+          setNotificationMsg('')
+        }, 5000);
       })
       .catch(() => {
         alert('Error adding new contact')
@@ -84,6 +96,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMsg} />
       <Filter value={filter} handleChange={handleChangeFilter} />
       <h3>add a new</h3>
       <PersonForm handleSubmit={addPerson} nameValue={newName} handleChangeName={handleChangeName} numberValue={newNumber} handleChangeNumber={handleChangeNumber} />
