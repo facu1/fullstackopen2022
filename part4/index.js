@@ -1,4 +1,5 @@
 const config = require('./utils/config')
+const logger = require('./utils/logger')
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -17,15 +18,15 @@ const Blog = mongoose.model('Blog', blogSchema)
 
 const mongoUrl = config.MONGODB_URI
 
-console.log('connecting to', mongoUrl)
+logger.info('connecting to', mongoUrl)
 
 mongoose
   .connect(mongoUrl)
   .then(() => {
-    console.log('connected to MongoDB')
+    logger.info('connected to MongoDB')
   })
   .catch((error) => {
-    console.error('error connecting to MongoDB', error.message)
+    logger.error('error connecting to MongoDB', error.message)
   })
 
 app.use(cors())
@@ -57,7 +58,7 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-  console.log(error.message)
+  logger.error(error.message)
 
   next(error)
 }
@@ -66,5 +67,5 @@ app.use(errorHandler)
 
 const PORT = config.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  logger.info(`Server running on port ${PORT}`)
 })
