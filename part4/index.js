@@ -1,11 +1,11 @@
 const config = require('./utils/config')
 const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-const morgan = require('morgan')
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -31,7 +31,7 @@ mongoose
 
 app.use(cors())
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(middleware.requestLogger)
 
 app.get('/api/blogs', (request, response) => {
   Blog
@@ -51,19 +51,9 @@ app.post('/api/blogs', (request, response) => {
     })
 })
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'Unknown Endpoint' })
-}
+app.use(middleware.unknownEndpoint)
 
-app.use(unknownEndpoint)
-
-const errorHandler = (error, request, response, next) => {
-  logger.error(error.message)
-
-  next(error)
-}
-
-app.use(errorHandler)
+app.use(middleware.errorHandler)
 
 const PORT = config.PORT
 app.listen(PORT, () => {
