@@ -1,7 +1,5 @@
-const dummy = require('../utils/list_helper').dummy
-const totalLikes = require('../utils/list_helper').totalLikes
-const favoriteBlog = require('../utils/list_helper').favoriteBlog
-const mostBlogs = require('../utils/list_helper').mostBlogs
+const list_helper = require('../utils/list_helper')
+const { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes } = list_helper
 
 test('dummy returns one', () => {
   const blogs = []
@@ -178,6 +176,33 @@ describe('most blogs', () => {
     expect(mostBlogs(listWithManyTopBloggers)).toEqual({
       author: 'Edsger W. Dijkstra',
       blogs: 1
+    })
+  })
+})
+
+describe('most likes', () => {
+  test('of a empty list is zero', () => {
+    expect(mostLikes([])).toBe(0)
+  })
+
+  test('when list has only one blog, is the author and likes of that', () => {
+    expect(mostLikes(listWithOneBlog)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    })
+  })
+
+  test('of a bigger list is calculated right', () => {
+    expect(mostLikes(blogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    })
+  })
+
+  test('when list has many blogger with top blogs, is one/the first of this author', () => {
+    expect(mostLikes(listWithManyTopFavorite)).toEqual({
+      author: 'Michael Chan',
+      likes: 7
     })
   })
 })
