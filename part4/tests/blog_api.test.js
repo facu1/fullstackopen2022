@@ -80,6 +80,18 @@ describe('supertests', () => {
 
     expect(createdBlog.body.likes).toBe(0)
   })
+
+  test('if the title and url properties are missing, responds with the status code 400', async () => {
+    const newBlog = {
+      author: 'Author 3',
+      likes: 7
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
 })
 
 afterAll(() => {
