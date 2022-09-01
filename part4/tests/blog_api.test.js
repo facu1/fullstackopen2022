@@ -30,6 +30,14 @@ describe('supertests', () => {
 
     expect(response.body).toHaveLength(blogsAtStart.length)
   })
+
+  test('the unique identifier property of the blog posts is named id', async () => {
+    const response = await api.get('/api/blogs')
+
+    const [firstNote] = response.body
+
+    expect(firstNote.id).toBeDefined()
+  })
 })
 
 afterAll(() => {
