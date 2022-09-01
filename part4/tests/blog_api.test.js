@@ -19,7 +19,7 @@ beforeEach(async () => {
   await Promise.all(promisesArray)
 })
 
-describe('supertests', () => {
+describe('when there is initially some blogs saved', () => {
   test('returns the correct amount of blog posts in the JSON format', async () => {
     const blogsAtStart = helper.initialBlogs
 
@@ -38,8 +38,10 @@ describe('supertests', () => {
 
     expect(firstNote.id).toBeDefined()
   })
+})
 
-  test('a valid blog can be added', async () => {
+describe('addition of a new blog', () => {
+  test('succeeds with status code 201 with valid data', async () => {
     const blogsAtStart = helper.initialBlogs
 
     const newBlog = {
@@ -65,7 +67,7 @@ describe('supertests', () => {
     expect(blogsContent).toContainEqual(newBlog)
   })
 
-  test('if the likes property is missing, it will default to the value 0', async () => {
+  test('succeeds with status code 201 if likes property is missing', async () => {
     const newBlog = {
       title: 'Blog 3',
       author: 'Author 3',
@@ -81,7 +83,7 @@ describe('supertests', () => {
     expect(createdBlog.body.likes).toBe(0)
   })
 
-  test('if the title and url properties are missing, responds with the status code 400', async () => {
+  test('fails with status code 400 if url and title properties are missing', async () => {
     const newBlog = {
       author: 'Author 3',
       likes: 7
@@ -91,6 +93,24 @@ describe('supertests', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
+  })
+})
+
+describe('deletion of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsInDb = await helper.blogsInDb()
+
+    const [blog] = blogsInDb
+
+    await api
+      .delete(`/api/blogs/${blog.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    expect(blogsAtEnd).not.toContainEqual(blog)
   })
 })
 
