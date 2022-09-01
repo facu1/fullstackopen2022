@@ -38,6 +38,32 @@ describe('supertests', () => {
 
     expect(firstNote.id).toBeDefined()
   })
+
+  test('a valid blog can be added', async () => {
+    const blogsAtStart = helper.initialBlogs
+
+    const newBlog = {
+      title: 'Blog 3',
+      author: 'Author 3',
+      url: 'www.amazon.com',
+      likes: 7
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
+
+    const blogsContent = blogsAtEnd
+      .map(({ title, author, url, likes }) => ({ title, author, url, likes }))
+
+    expect(blogsContent).toContainEqual(newBlog)
+  })
 })
 
 afterAll(() => {
