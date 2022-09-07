@@ -10,6 +10,25 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
   const { username, password, name } = request.body
 
+  const errorPassBase = 'User validation failed:'
+
+  if (!password) {
+    return response.status(400).json({
+      error: `${errorPassBase} password: is missing`
+    })
+  } else if (password.length < 3) {
+    return response.status(400).json({
+      error: `${errorPassBase} password: length is minor than 3`
+    })
+  }
+
+  const existingUser = await User.findOne({ username })
+  if (existingUser) {
+    return response.status(400).json({
+      error: `${errorPassBase} username: must be unique`
+    })
+  }
+
   const saltRounds = 10
 
   const passwordHash = await bcrypt.hash(password, saltRounds)
