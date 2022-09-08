@@ -6,12 +6,26 @@ const helper = require('./test_helper')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await User.deleteMany({})
+
+  const newUser = {
+    username: 'user1',
+    password: 'password1',
+    name: 'User 1'
+  }
+
+  const user = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
 
   const blogObjects = helper.initialBlogs
-    .map((blog) => new Blog(blog))
+    .map((blog) => new Blog({ ...blog, user: user.body.id }))
 
   const promisesArray = blogObjects
     .map((blog) => blog.save())
@@ -44,6 +58,14 @@ describe('addition of a new blog', () => {
   test('succeeds with status code 201 with valid data', async () => {
     const blogsAtStart = helper.initialBlogs
 
+    const responseLogin = await api
+      .post('/api/login')
+      .send({ username: 'user1', password: 'password1' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = `bearer ${responseLogin.body.token}`
+
     const newBlog = {
       title: 'Blog 3',
       author: 'Author 3',
@@ -53,6 +75,7 @@ describe('addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set({ Authorization: token })
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -68,6 +91,14 @@ describe('addition of a new blog', () => {
   })
 
   test('succeeds with status code 201 if likes property is missing', async () => {
+    const responseLogin = await api
+      .post('/api/login')
+      .send({ username: 'user1', password: 'password1' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = `bearer ${responseLogin.body.token}`
+
     const newBlog = {
       title: 'Blog 3',
       author: 'Author 3',
@@ -76,6 +107,7 @@ describe('addition of a new blog', () => {
 
     const createdBlog = await api
       .post('/api/blogs')
+      .set({ Authorization: token })
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -84,6 +116,14 @@ describe('addition of a new blog', () => {
   })
 
   test('fails with status code 400 if url and title properties are missing', async () => {
+    const responseLogin = await api
+      .post('/api/login')
+      .send({ username: 'user1', password: 'password1' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = `bearer ${responseLogin.body.token}`
+
     const newBlog = {
       author: 'Author 3',
       likes: 7
@@ -91,19 +131,51 @@ describe('addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set({ Authorization: token })
       .send(newBlog)
       .expect(400)
+  })
+
+  test('fails with status code 401 if a token is not provided', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+
+    const newBlog = {
+      title: 'Blog 19',
+      author: 'Author 19',
+      url: 'www.twitter.com',
+      likes: 10
+    }
+
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+
+    expect(response.body).toEqual({ error: 'invalid token' })
   })
 })
 
 describe('deletion of a blog', () => {
   test('succeeds with status code 204 if id is valid', async () => {
+    const responseLogin = await api
+      .post('/api/login')
+      .send({ username: 'user1', password: 'password1' })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = `bearer ${responseLogin.body.token}`
+
     const blogsInDb = await helper.blogsInDb()
 
     const [blog] = blogsInDb
 
     await api
       .delete(`/api/blogs/${blog.id}`)
+      .set({ Authorization: token })
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
