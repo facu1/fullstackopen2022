@@ -4,6 +4,6 @@ content-type: application/json
 {
   "title": "Blog 3",
   "author": "Author 3",
-  "url": "www.duckduckgo.com",
-  "likes": 15
+  "url": "www.baidu.com",
+  "likes": 7
 }
