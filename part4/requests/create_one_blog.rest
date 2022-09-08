@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
-content-type: application/json
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjMxOGViMjcwZTE5YzA2MmRlYTgyZjFkIiwiaWF0IjoxNjYyNjA5MDM0fQ.-Sj3LwMscEansTHW2_bdLvUlOFk06hFGkH52iosNKxE
 
 {
-  "title": "Blog 3",
-  "author": "Author 3",
-  "url": "www.baidu.com",
+  "title": "Blog 4",
+  "author": "Author 4",
+  "url": "www.youtube.com",
   "likes": 7
 }
