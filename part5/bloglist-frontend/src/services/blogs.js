@@ -20,8 +20,9 @@ const create = async (newBlog) => {
 
 const likeBlog = async (blog) => {
   blog.likes += 1
+  const blogWithUserId = { ...blog, user: blog.user.id }
 
-  const request = await axios.put(`${baseUrl}/${blog.id}`, blog)
+  const request = await axios.put(`${baseUrl}/${blog.id}`, blogWithUserId)
 
   return request.data
 }

@@ -18,7 +18,7 @@ const Blog = ({blog, handleLike}) => {
   const likeBlog = async () => {
     const { id, user, likes, author, title, url } = blog
 
-    await handleLike({ id, user: user.id, likes, author, title, url })
+    await handleLike({ id, user, likes, author, title, url })
   }
 
   return (
