@@ -84,6 +84,12 @@ const App = () => {
     ))
   }
 
+  const deleteBlog = async (blogId) => {
+    await blogService.deleteBlog(blogId)
+
+    setBlogs(blogs.filter((blog) => blog.id !== blogId))
+  }
+
   return (
     <div>
       {user === null
@@ -106,7 +112,13 @@ const App = () => {
               <BlogForm createBlog={addBlog} />
             </Togglable>
             {blogs.slice().sort((a, b) => b.likes - a.likes).map(blog =>
-              <Blog key={blog.id} blog={blog} handleLike={likeBlog} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleLike={likeBlog}
+                actualUser={user}
+                handleDelete={deleteBlog}
+              />
             )}
           </>
       }
