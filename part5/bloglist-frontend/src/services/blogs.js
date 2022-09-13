@@ -18,6 +18,14 @@ const create = async (newBlog) => {
   return request.data
 }
 
-const blogService = { getAll, create, setToken }
+const likeBlog = async (blog) => {
+  blog.likes += 1
+
+  const request = await axios.put(`${baseUrl}/${blog.id}`, blog)
+
+  return request.data
+}
+
+const blogService = { getAll, create, setToken, likeBlog }
 
 export default blogService

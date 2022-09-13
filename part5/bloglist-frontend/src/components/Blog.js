@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({blog}) => {
+const Blog = ({blog, handleLike}) => {
   const [expanded, setExpanded] = useState(false)
 
   const blogStyle = {
@@ -14,6 +14,12 @@ const Blog = ({blog}) => {
   const hideStyle = { display : 'none'}
 
   const toggleExpanded = () => setExpanded(!expanded)
+  
+  const likeBlog = async () => {
+    const { id, user, likes, author, title, url } = blog
+
+    await handleLike({ id, user: user.id, likes, author, title, url })
+  }
 
   return (
     <div style={blogStyle}>
@@ -24,7 +30,7 @@ const Blog = ({blog}) => {
       <div style={expanded ? {} : hideStyle}>
         <div>{blog.title}<button onClick={toggleExpanded}>view</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button>like</button></div>
+        <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
         <div>{blog.author}</div>
       </div>
     </div>
