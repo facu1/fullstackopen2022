@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-const Blog = ({blog, handleLike, actualUser, handleDelete}) => {
+const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
   const [expanded, setExpanded] = useState(false)
 
   const blogStyle = {
@@ -11,10 +11,10 @@ const Blog = ({blog, handleLike, actualUser, handleDelete}) => {
     marginBottom: 5
   }
 
-  const hideStyle = { display : 'none'}
+  const hideStyle = { display : 'none' }
 
   const toggleExpanded = () => setExpanded(!expanded)
-  
+
   const likeBlog = async () => {
     const { id, user, likes, author, title, url } = blog
 
@@ -41,7 +41,7 @@ const Blog = ({blog, handleLike, actualUser, handleDelete}) => {
         <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
         <div>{blog.author}</div>
         {actualUser.username === blog.user.username &&
-          <button style={{background: 'cyan'}} onClick={deleteBlog}>
+          <button style={{ background: 'cyan' }} onClick={deleteBlog}>
             remove
           </button>}
       </div>

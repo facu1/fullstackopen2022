@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotification(`Fails wrong username or password`)
+      setNotification('Fails wrong username or password')
       setTimeout(() => {
         setNotification(null)
       }, 3000)
@@ -67,7 +67,7 @@ const App = () => {
         setNotification(null)
       }, 3000)
     } catch (exception) {
-      setNotification(`Fails something wrong adding new blog`)
+      setNotification('Fails something wrong adding new blog')
       setTimeout(() => {
         setNotification(null)
       }, 3000)
@@ -94,33 +94,33 @@ const App = () => {
     <div>
       {user === null
         ? <LoginForm
-            handleLogin={handleLogin}
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            notification={notification}
-          />
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+          notification={notification}
+        />
         : <>
-            <h2>blogs</h2>
-            <Notification notification={notification} />
-            <div>
-              {user.name} logged in
-              <button onClick={handleLogout}>logout</button>
-            </div>
-            <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-              <BlogForm createBlog={addBlog} />
-            </Togglable>
-            {blogs.slice().sort((a, b) => b.likes - a.likes).map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                handleLike={likeBlog}
-                actualUser={user}
-                handleDelete={deleteBlog}
-              />
-            )}
-          </>
+          <h2>blogs</h2>
+          <Notification notification={notification} />
+          <div>
+            {user.name} logged in
+            <button onClick={handleLogout}>logout</button>
+          </div>
+          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
+          {blogs.slice().sort((a, b) => b.likes - a.likes).map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLike={likeBlog}
+              actualUser={user}
+              handleDelete={deleteBlog}
+            />
+          )}
+        </>
       }
     </div>
   )
