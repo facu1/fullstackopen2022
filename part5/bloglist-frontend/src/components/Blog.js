@@ -31,11 +31,11 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={expanded ? hideStyle : {}} className='blog'>
+      <div style={expanded ? hideStyle : {}} id='blogTitleAuthor'>
         {blog.title} {blog.author}
-        <button onClick={toggleExpanded}>view</button>
+        <button onClick={toggleExpanded} id='blogTitleAuthorBttn'>view</button>
       </div>
-      <div style={expanded ? {} : hideStyle}>
+      <div style={expanded ? {} : hideStyle} id='blogInfo'>
         <div>{blog.title}<button onClick={toggleExpanded}>view</button></div>
         <div>{blog.url}</div>
         <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
