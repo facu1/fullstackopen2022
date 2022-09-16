@@ -53,3 +53,27 @@ test('render url and likes when view button has been clicked', async () => {
   expect(infoElement).not.toHaveStyle('display: none;')
   expect(infoElement).toHaveTextContent(`${blog.url}likes ${blog.likes}`)
 })
+
+test('clicking twice the like button calls event handler twice', async () => {
+  const blog = {
+    title: 'Title 1',
+    author: 'Author 1',
+    url: 'Url 1',
+    likes: 1,
+    user: { username: 'user1' }
+  }
+
+  const user = { username: 'user1' }
+
+  const mockHandler = jest.fn()
+
+  const { container } = render(<Blog blog={blog} actualUser={user} handleLike={mockHandler} />)
+
+  const userSession = userEvent.setup()
+
+  const button = container.querySelector('#likeBttn')
+  await userSession.click(button)
+  await userSession.click(button)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})

@@ -38,7 +38,7 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
       <div style={expanded ? {} : hideStyle} id='blogInfo'>
         <div>{blog.title}<button onClick={toggleExpanded}>view</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button onClick={likeBlog}>like</button></div>
+        <div>likes {blog.likes}<button onClick={likeBlog} id='likeBttn'>like</button></div>
         <div>{blog.author}</div>
         {actualUser.username === blog.user.username &&
           <button style={{ background: 'cyan' }} onClick={deleteBlog}>
