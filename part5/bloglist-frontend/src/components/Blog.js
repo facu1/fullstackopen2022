@@ -31,14 +31,14 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={expanded ? hideStyle : {}} id='blogTitleAuthor'>
+      <div style={expanded ? hideStyle : {}} className='blogTitleAuthor'>
         {blog.title} {blog.author}
-        <button onClick={toggleExpanded} id='blogTitleAuthorBttn'>view</button>
+        <button onClick={toggleExpanded} className='blogTitleAuthorBttn'>view</button>
       </div>
-      <div style={expanded ? {} : hideStyle} id='blogInfo'>
+      <div style={expanded ? {} : hideStyle} className='blogInfo'>
         <div>{blog.title}<button onClick={toggleExpanded}>view</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button onClick={likeBlog} id='likeBttn'>like</button></div>
+        <div>likes {blog.likes}<button onClick={likeBlog} className='likeBttn'>like</button></div>
         <div>{blog.author}</div>
         {actualUser.username === blog.user.username &&
           <button style={{ background: 'cyan' }} onClick={deleteBlog}>

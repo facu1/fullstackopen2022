@@ -48,5 +48,18 @@ describe('Blog app', function() {
       cy.contains('a new blog Blog 1 by Author 1 added')
       cy.contains('Blog 1 Author 1')
     })
+
+    describe('and a note exists', function() {
+      beforeEach(function() {
+        cy.createBlog({ title: 'Blog 1', author: 'Author 1', url: 'Url 1' })
+      })
+
+      it('it can be liked', function() {
+        cy.contains('Blog 1').parent().as('theBlog')
+        cy.get('@theBlog').find('.blogTitleAuthor').find('button').click()
+        cy.get('@theBlog').find('.blogInfo').find('.likeBttn').click()
+        cy.get('@theBlog').contains('likes 1')
+      })
+    })
   })
 })
