@@ -6,6 +6,11 @@ describe('Blog app', function() {
       password: 'fgonza123',
       name: 'Facundo Gonzalez'
     })
+    cy.request('POST', 'http://localhost:3003/api/users', {
+      username: 'fgonza2',
+      password: 'fgonza2123',
+      name: 'Facundo Gonzalez 2'
+    })
     cy.visit('http://localhost:3000')
   })
 
@@ -56,9 +61,24 @@ describe('Blog app', function() {
 
       it('it can be liked', function() {
         cy.contains('Blog 1').parent().as('theBlog')
-        cy.get('@theBlog').find('.blogTitleAuthor').find('button').click()
-        cy.get('@theBlog').find('.blogInfo').find('.likeBttn').click()
+        cy.get('@theBlog').find('.blogTitleAuthorBttn').click()
+        cy.get('@theBlog').find('.likeBttn').click()
         cy.get('@theBlog').contains('likes 1')
+      })
+
+      it('it can be deleted by the user who created it', function() {
+        cy.contains('Blog 1').parent().as('theBlog')
+        cy.get('@theBlog').find('.blogTitleAuthorBttn').click()
+        cy.get('@theBlog').find('.removeBttn').click()
+        cy.get('html').should('not.contain', 'Blog 1 Author 1')
+      })
+
+      it('it cannot be deleted by one user who does not create it', function() {
+        cy.contains('logout').click()
+        cy.login({ username: 'fgonza2', password: 'fgonza2123' })
+        cy.contains('Blog 1').parent().as('theBlog')
+        cy.get('@theBlog').find('.blogTitleAuthorBttn').click()
+        cy.get('@theBlog').should('not.contain', 'remove')
       })
     })
   })
