@@ -81,5 +81,28 @@ describe('Blog app', function() {
         cy.get('@theBlog').should('not.contain', 'remove')
       })
     })
+
+    describe('and several notes exist', function() {
+      beforeEach(function() {
+        cy.createBlog({ title: 'The title with the second most likes', author: 'Author 2', url: 'Url 2' })
+        cy.createBlog({ title: 'The title with the most likes', author: 'Author 1', url: 'Url 1' })
+      })
+
+      it('are ordered according to likes', function() {
+        cy.contains('The title with the second most likes').parent().as('secondMostLikedBlog')
+        cy.get('@secondMostLikedBlog').find('.blogTitleAuthorBttn').click()
+        cy.get('@secondMostLikedBlog').find('.likeBttn').click()
+
+        cy.contains('The title with the most likes').parent().as('mostLikedBlog')
+        cy.get('@mostLikedBlog').find('.blogTitleAuthorBttn').click()
+        cy.get('@mostLikedBlog').find('.likeBttn').click().then(function() {
+          cy.get('@mostLikedBlog').find('.likeBttn').click()
+        })
+
+        cy.wait(100)
+        cy.get('.blog').eq(0).should('contain', 'The title with the most likes')
+        cy.get('.blog').eq(1).should('contain', 'The title with the second most likes')
+      })
+    })
   })
 })

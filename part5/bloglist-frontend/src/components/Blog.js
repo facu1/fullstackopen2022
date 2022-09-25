@@ -30,7 +30,7 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div style={expanded ? hideStyle : {}} className='blogTitleAuthor'>
         {blog.title} {blog.author}
         <button onClick={toggleExpanded} className='blogTitleAuthorBttn'>view</button>
