@@ -12,9 +12,9 @@ const AnecdoteList = () => {
 
   const sortedAnecdotes = anecdotes.slice().sort((a, b) => b.votes - a.votes)
 
-  const vote = ({ id, content }) => {
-    dispatch(voteAnecdote(id))
-    dispatch(notificationChange(`you voted '${content}'`))
+  const vote = (anecdote) => {
+    dispatch(voteAnecdote(anecdote))
+    dispatch(notificationChange(`you voted '${anecdote.content}'`))
     setTimeout(() => {
       dispatch(resetNotification())
     }, 5000);

@@ -13,6 +13,13 @@ const createNew = async (content) => {
   return response.data
 }
 
-const anecdoteService = { getAll, createNew }
+const update = async (newObject) => {
+  const { id } = newObject
+  const objectToSend = { ...newObject, votes: newObject.votes + 1 }
+  const response = await axios.put(`${baseUrl}/${id}`, objectToSend)
+  return response.data
+}
+
+const anecdoteService = { getAll, createNew, update }
 
 export default anecdoteService
