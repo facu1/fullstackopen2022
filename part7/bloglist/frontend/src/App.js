@@ -61,18 +61,6 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const likeBlog = async (blogToLike) => {
-    // const returnedBlog = await blogService.likeBlog(blogToLike)
-    // setBlogs(
-    //   blogs.map((blog) => (blog.id === returnedBlog.id ? blogToLike : blog))
-    // )
-  }
-
-  const deleteBlog = async (blogId) => {
-    // await blogService.deleteBlog(blogId)
-    // setBlogs(blogs.filter((blog) => blog.id !== blogId))
-  }
-
   return (
     <div>
       {user === null ? (
@@ -98,13 +86,7 @@ const App = () => {
             .slice()
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                handleLike={likeBlog}
-                actualUser={user}
-                handleDelete={deleteBlog}
-              />
+              <Blog key={blog.id} blog={blog} actualUser={user} />
             ))}
         </>
       )}

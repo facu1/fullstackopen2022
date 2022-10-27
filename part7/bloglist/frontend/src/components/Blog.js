@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { removeBlog, updateBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
+const Blog = ({ blog, actualUser }) => {
   const [expanded, setExpanded] = useState(false)
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 10,
@@ -15,17 +18,19 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
 
   const toggleExpanded = () => setExpanded(!expanded)
 
-  const likeBlog = async () => {
+  const likeBlog = () => {
     const { id, user, likes, author, title, url } = blog
+    const blogWithUserId = { id, likes, author, title, url, user: user.id }
+    blogWithUserId.likes += 1
 
-    await handleLike({ id, user, likes, author, title, url })
+    dispatch(updateBlog(id, blogWithUserId))
   }
 
-  const deleteBlog = async () => {
+  const deleteBlog = () => {
     const { id, title, author } = blog
 
     if (window.confirm(`Remove blog ${title} by ${author}`)) {
-      await handleDelete(id)
+      dispatch(removeBlog(id))
     }
   }
 
