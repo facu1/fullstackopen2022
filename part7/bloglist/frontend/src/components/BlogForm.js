@@ -14,7 +14,9 @@ const BlogForm = ({ createBlog }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch (_) {_}
+    } catch (_) {
+      _
+    }
   }
 
   return (
@@ -23,7 +25,7 @@ const BlogForm = ({ createBlog }) => {
       <div>
         title:
         <input
-          id='title-input'
+          id="title-input"
           type="text"
           value={title}
           name="title"
@@ -33,7 +35,7 @@ const BlogForm = ({ createBlog }) => {
       <div>
         author:
         <input
-          id='author-input'
+          id="author-input"
           type="text"
           value={author}
           name="author"
@@ -43,14 +45,16 @@ const BlogForm = ({ createBlog }) => {
       <div>
         url:
         <input
-          id='url-input'
+          id="url-input"
           type="text"
           value={url}
           name="url"
           onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button id='submit-bttn' type="submit">create</button>
+      <button id="submit-bttn" type="submit">
+        create
+      </button>
     </form>
   )
 }

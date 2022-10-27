@@ -11,7 +11,7 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
     marginBottom: 5
   }
 
-  const hideStyle = { display : 'none' }
+  const hideStyle = { display: 'none' }
 
   const toggleExpanded = () => setExpanded(!expanded)
 
@@ -30,20 +30,35 @@ const Blog = ({ blog, handleLike, actualUser, handleDelete }) => {
   }
 
   return (
-    <div style={blogStyle} className='blog'>
-      <div style={expanded ? hideStyle : {}} className='blogTitleAuthor'>
+    <div style={blogStyle} className="blog">
+      <div style={expanded ? hideStyle : {}} className="blogTitleAuthor">
         {blog.title} {blog.author}
-        <button onClick={toggleExpanded} className='blogTitleAuthorBttn'>view</button>
+        <button onClick={toggleExpanded} className="blogTitleAuthorBttn">
+          view
+        </button>
       </div>
-      <div style={expanded ? {} : hideStyle} className='blogInfo'>
-        <div>{blog.title}<button onClick={toggleExpanded}>view</button></div>
+      <div style={expanded ? {} : hideStyle} className="blogInfo">
+        <div>
+          {blog.title}
+          <button onClick={toggleExpanded}>view</button>
+        </div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes}<button onClick={likeBlog} className='likeBttn'>like</button></div>
+        <div>
+          likes {blog.likes}
+          <button onClick={likeBlog} className="likeBttn">
+            like
+          </button>
+        </div>
         <div>{blog.author}</div>
-        {actualUser.username === blog.user.username &&
-          <button style={{ background: 'cyan' }} onClick={deleteBlog} className='removeBttn'>
+        {actualUser.username === blog.user.username && (
+          <button
+            style={{ background: 'cyan' }}
+            onClick={deleteBlog}
+            className="removeBttn"
+          >
             remove
-          </button>}
+          </button>
+        )}
       </div>
     </div>
   )

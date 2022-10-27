@@ -16,9 +16,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
   useEffect(() => {
@@ -62,7 +60,9 @@ const App = () => {
 
       setBlogs(blogs.concat(returnedBlog))
       blogFormRef.current.toggleVisibility()
-      setNotification(`Succeeds a new blog ${blogObject.title} by ${blogObject.author} added`)
+      setNotification(
+        `Succeeds a new blog ${blogObject.title} by ${blogObject.author} added`
+      )
       setTimeout(() => {
         setNotification(null)
       }, 3000)
@@ -78,10 +78,9 @@ const App = () => {
   const likeBlog = async (blogToLike) => {
     const returnedBlog = await blogService.likeBlog(blogToLike)
 
-    setBlogs(blogs.map((blog) => blog.id === returnedBlog.id
-      ? blogToLike
-      : blog
-    ))
+    setBlogs(
+      blogs.map((blog) => (blog.id === returnedBlog.id ? blogToLike : blog))
+    )
   }
 
   const deleteBlog = async (blogId) => {
@@ -92,8 +91,8 @@ const App = () => {
 
   return (
     <div>
-      {user === null
-        ? <LoginForm
+      {user === null ? (
+        <LoginForm
           handleLogin={handleLogin}
           username={username}
           setUsername={setUsername}
@@ -101,7 +100,8 @@ const App = () => {
           setPassword={setPassword}
           notification={notification}
         />
-        : <>
+      ) : (
+        <>
           <h2>blogs</h2>
           <Notification notification={notification} />
           <div>
@@ -111,17 +111,20 @@ const App = () => {
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
-          {blogs.slice().sort((a, b) => b.likes - a.likes).map(blog =>
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleLike={likeBlog}
-              actualUser={user}
-              handleDelete={deleteBlog}
-            />
-          )}
+          {blogs
+            .slice()
+            .sort((a, b) => b.likes - a.likes)
+            .map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleLike={likeBlog}
+                actualUser={user}
+                handleDelete={deleteBlog}
+              />
+            ))}
         </>
-      }
+      )}
     </div>
   )
 }
