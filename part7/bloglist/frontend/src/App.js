@@ -7,13 +7,17 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import { useDispatch } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState('')
   const blogFormRef = useRef()
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -40,10 +44,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotification('Fails wrong username or password')
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
+      dispatch(setNotification('Fails wrong username or password', 3))
       console.log(exception)
     }
   }
@@ -60,17 +61,14 @@ const App = () => {
 
       setBlogs(blogs.concat(returnedBlog))
       blogFormRef.current.toggleVisibility()
-      setNotification(
-        `Succeeds a new blog ${blogObject.title} by ${blogObject.author} added`
+      dispatch(
+        setNotification(
+          `Succeeds a new blog ${blogObject.title} by ${blogObject.author} added`,
+          3
+        )
       )
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
     } catch (exception) {
-      setNotification('Fails something wrong adding new blog')
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
+      dispatch(setNotification('Fails something wrong adding new blog', 3))
       throw Error()
     }
   }
@@ -98,12 +96,11 @@ const App = () => {
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
-          notification={notification}
         />
       ) : (
         <>
           <h2>blogs</h2>
-          <Notification notification={notification} />
+          <Notification />
           <div>
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>

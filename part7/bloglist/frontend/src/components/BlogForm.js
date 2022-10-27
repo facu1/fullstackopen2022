@@ -14,9 +14,7 @@ const BlogForm = ({ createBlog }) => {
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch (_) {
-      _
-    }
+    } catch (_) {}
   }
 
   return (
