@@ -7,21 +7,23 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
+  const blogs = useSelector(({ blogs }) => blogs)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -55,36 +57,20 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = async (blogObject) => {
-    try {
-      const returnedBlog = await blogService.create(blogObject)
-
-      setBlogs(blogs.concat(returnedBlog))
-      blogFormRef.current.toggleVisibility()
-      dispatch(
-        setNotification(
-          `Succeeds a new blog ${blogObject.title} by ${blogObject.author} added`,
-          3
-        )
-      )
-    } catch (exception) {
-      dispatch(setNotification('Fails something wrong adding new blog', 3))
-      throw Error()
-    }
+  const toggleVisibility = () => {
+    blogFormRef.current.toggleVisibility()
   }
 
   const likeBlog = async (blogToLike) => {
-    const returnedBlog = await blogService.likeBlog(blogToLike)
-
-    setBlogs(
-      blogs.map((blog) => (blog.id === returnedBlog.id ? blogToLike : blog))
-    )
+    // const returnedBlog = await blogService.likeBlog(blogToLike)
+    // setBlogs(
+    //   blogs.map((blog) => (blog.id === returnedBlog.id ? blogToLike : blog))
+    // )
   }
 
   const deleteBlog = async (blogId) => {
-    await blogService.deleteBlog(blogId)
-
-    setBlogs(blogs.filter((blog) => blog.id !== blogId))
+    // await blogService.deleteBlog(blogId)
+    // setBlogs(blogs.filter((blog) => blog.id !== blogId))
   }
 
   return (
@@ -106,7 +92,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} />
+            <BlogForm toggleVisibility={toggleVisibility} />
           </Togglable>
           {blogs
             .slice()

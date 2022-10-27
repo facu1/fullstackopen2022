@@ -1,20 +1,31 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+import { createBlog } from '../reducers/blogReducer'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ toggleVisibility }) => {
+  const dispatch = useDispatch()
+
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const addBlog = async (e) => {
     e.preventDefault()
-
     try {
-      await createBlog({ title, author, url })
+      dispatch(createBlog({ title, author, url }))
+      toggleVisibility()
 
       setTitle('')
       setAuthor('')
       setUrl('')
-    } catch (_) {}
+
+      dispatch(
+        setNotification(`Succeeds a new blog ${title} by ${author} added`, 3)
+      )
+    } catch (exception) {
+      dispatch(setNotification('Fails something wrong adding new blog', 3))
+    }
   }
 
   return (
