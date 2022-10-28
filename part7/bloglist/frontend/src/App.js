@@ -9,6 +9,7 @@ import { initializeUser, removeUser } from './reducers/userReducer'
 import { Routes, Route } from 'react-router-dom'
 import BlogList from './components/BlogList'
 import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
@@ -37,6 +38,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<BlogList />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
           </Routes>
         </>
       )}
