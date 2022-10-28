@@ -1,16 +1,25 @@
 import { useRef } from 'react'
 import { useSelector } from 'react-redux'
-import Blog from './Blog'
 import BlogForm from './BlogForm'
 import Togglable from './Togglable'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   const blogFormRef = useRef()
 
-  const user = useSelector(({ user }) => user)
   const blogs = useSelector(({ blogs }) => blogs)
 
   const toggleVisibility = () => blogFormRef.current.toggleVisibility()
+
+  const blogStyle = {
+    display: 'flex',
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 5
+  }
 
   return (
     <>
@@ -21,7 +30,9 @@ const BlogList = () => {
         .slice()
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
-          <Blog key={blog.id} blog={blog} actualUser={user} />
+          <Link key={blog.id} style={blogStyle} to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+          </Link>
         ))}
     </>
   )

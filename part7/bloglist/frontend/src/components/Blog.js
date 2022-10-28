@@ -1,22 +1,18 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { removeBlog, updateBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, actualUser }) => {
-  const [expanded, setExpanded] = useState(false)
+import { useMatch, useNavigate } from 'react-router-dom'
+
+const Blog = () => {
+  const actualUser = useSelector(({ user }) => user)
+  const blogs = useSelector(({ blogs }) => blogs)
+
+  const match = useMatch('/blogs/:id')
+  const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null
+
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  const hideStyle = { display: 'none' }
-
-  const toggleExpanded = () => setExpanded(!expanded)
 
   const likeBlog = () => {
     const { id, user, likes, author, title, url } = blog
@@ -32,39 +28,33 @@ const Blog = ({ blog, actualUser }) => {
     if (window.confirm(`Remove blog ${title} by ${author}`)) {
       dispatch(removeBlog(id))
     }
+    navigate('/')
   }
 
+  if (!blog) return <></>
+
   return (
-    <div style={blogStyle} className="blog">
-      <div style={expanded ? hideStyle : {}} className="blogTitleAuthor">
+    <div className="blog">
+      <h2>
         {blog.title} {blog.author}
-        <button onClick={toggleExpanded} className="blogTitleAuthorBttn">
-          view
+      </h2>
+      <a href={blog.url}>{blog.url}</a>
+      <div>
+        likes {blog.likes}
+        <button onClick={likeBlog} className="likeBttn">
+          like
         </button>
       </div>
-      <div style={expanded ? {} : hideStyle} className="blogInfo">
-        <div>
-          {blog.title}
-          <button onClick={toggleExpanded}>view</button>
-        </div>
-        <div>{blog.url}</div>
-        <div>
-          likes {blog.likes}
-          <button onClick={likeBlog} className="likeBttn">
-            like
-          </button>
-        </div>
-        <div>{blog.author}</div>
-        {actualUser.username === blog.user.username && (
-          <button
-            style={{ background: 'cyan' }}
-            onClick={deleteBlog}
-            className="removeBttn"
-          >
-            remove
-          </button>
-        )}
-      </div>
+      <div>added by {blog.author}</div>
+      {actualUser.username === blog.user.username && (
+        <button
+          style={{ background: 'cyan' }}
+          onClick={deleteBlog}
+          className="removeBttn"
+        >
+          remove
+        </button>
+      )}
     </div>
   )
 }
