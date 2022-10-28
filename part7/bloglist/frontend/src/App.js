@@ -1,70 +1,36 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
-import loginService from './services/login'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogReducer'
-import userService from './services/user'
+import { initializeUser, removeUser } from './reducers/userReducer'
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
   const blogs = useSelector(({ blogs }) => blogs)
+
+  const user = useSelector(({ user }) => user)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUser())
   }, [dispatch])
 
-  useEffect(() => {
-    setUser(userService.getUser())
-  }, [])
+  const handleLogout = () => dispatch(removeUser())
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    try {
-      const user = await loginService.login({ username, password })
-
-      userService.setUser(user)
-      setUser(user)
-
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      dispatch(setNotification('Fails wrong username or password', 3))
-      console.log(exception)
-    }
-  }
-
-  const handleLogout = () => {
-    userService.clearUser()
-    setUser(null)
-  }
-
-  const toggleVisibility = () => {
-    blogFormRef.current.toggleVisibility()
-  }
+  const toggleVisibility = () => blogFormRef.current.toggleVisibility()
 
   return (
     <div>
       {user === null ? (
-        <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
+        <LoginForm />
       ) : (
         <>
           <h2>blogs</h2>
