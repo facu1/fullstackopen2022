@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { removeBlog, updateBlog } from '../reducers/blogReducer'
 
 import { useMatch, useNavigate } from 'react-router-dom'
+import CommentForm from './CommentForm'
 
 const Blog = () => {
   const actualUser = useSelector(({ user }) => user)
@@ -56,6 +57,7 @@ const Blog = () => {
         </button>
       )}
       <h3>comments</h3>
+      <CommentForm />
       <ul>
         {blog.comments.map(({ id, content }) => (
           <li key={id}>{content}</li>
