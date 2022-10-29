@@ -1,10 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjMxOGViMjcwZTE5YzA2MmRlYTgyZjFkIiwiaWF0IjoxNjYyNjA5MDM0fQ.-Sj3LwMscEansTHW2_bdLvUlOFk06hFGkH52iosNKxE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZnb256YSIsImlkIjoiNjM1Y2EwMWExYzQzNTA5ZmU2ZDhkODFkIiwiaWF0IjoxNjY3MDE0NzAzLCJleHAiOjE2NjcwMTgzMDN9.8sfxWCp7WO0lOYwJowvIetsFnRGmZS8BJ65LNlV60Oo
 
 {
-  "title": "Blog 5",
-  "author": "Author 5",
-  "url": "www.youtube.com",
-  "likes": 7
+  "title": "Blog 1",
+  "author": "Author 1",
+  "url": "www.google.com"
 }
