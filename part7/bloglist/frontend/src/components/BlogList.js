@@ -4,6 +4,10 @@ import BlogForm from './BlogForm'
 import Togglable from './Togglable'
 import { Link } from 'react-router-dom'
 
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { Card } from 'primereact/card'
+
 const BlogList = () => {
   const blogFormRef = useRef()
 
@@ -11,30 +15,24 @@ const BlogList = () => {
 
   const toggleVisibility = () => blogFormRef.current.toggleVisibility()
 
-  const blogStyle = {
-    display: 'flex',
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 5
+  const titleBodyTemplate = (rowData) => {
+    return (
+      <Link key={rowData.id} to={`/blogs/${rowData.id}`}>
+        {rowData.title}
+      </Link>
+    )
   }
 
   return (
-    <>
-      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+    <Card title="Blogs">
+      <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
         <BlogForm toggleVisibility={toggleVisibility} />
       </Togglable>
-      {blogs
-        .slice()
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <Link key={blog.id} style={blogStyle} to={`/blogs/${blog.id}`}>
-            {blog.title} {blog.author}
-          </Link>
-        ))}
-    </>
+      <DataTable value={blogs.slice().sort((a, b) => b.likes - a.likes)}>
+        <Column header="Title" body={titleBodyTemplate} />
+        <Column field="author" header="Author"></Column>
+      </DataTable>
+    </Card>
   )
 }
 

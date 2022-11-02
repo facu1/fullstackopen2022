@@ -12,6 +12,8 @@ import Users from './components/Users'
 import User from './components/User'
 import Blog from './components/Blog'
 
+import { Menubar } from 'primereact/menubar'
+
 const App = () => {
   const user = useSelector(({ user }) => user)
 
@@ -24,18 +26,35 @@ const App = () => {
 
   const handleLogout = () => dispatch(removeUser())
 
-  const padding = {
-    padding: 5
-  }
-
-  const margin = {
-    marginLeft: 5
-  }
-
-  const navStyle = {
-    background: 'lightgrey',
-    padding: 5
-  }
+  const menuItems = [
+    {
+      label: 'Blogs',
+      icon: 'pi pi-file-edit',
+      template: (item, options) => (
+        <Link className={options.className} to="/">
+          blogs
+        </Link>
+      )
+    },
+    {
+      label: 'Users',
+      icon: 'pi pi-user',
+      template: (item, options) => (
+        <Link className={options.className} to="/users">
+          users
+        </Link>
+      )
+    },
+    {
+      label: `${user?.name} logged in`,
+      template: (item, options) => <p>{item.label}</p>
+    },
+    {
+      label: 'Logout',
+      icon: 'pi pi-sign-out',
+      command: handleLogout
+    }
+  ]
 
   return (
     <div>
@@ -43,20 +62,8 @@ const App = () => {
         <LoginForm />
       ) : (
         <>
-          <div style={navStyle}>
-            <Link style={padding} to="/">
-              blogs
-            </Link>
-            <Link style={padding} to="/users">
-              users
-            </Link>
-            {user.name} logged in
-            <button style={margin} onClick={handleLogout}>
-              logout
-            </button>
-          </div>
+          <Menubar model={menuItems} />
           <Notification />
-          <h2>blog app</h2>
           <Routes>
             <Route path="/" element={<BlogList />} />
             <Route path="/users" element={<Users />} />

@@ -1,0 +1,9 @@
+.user {
+  width: 35em;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.user__blog {
+  background-color: #eff3f8;
+}

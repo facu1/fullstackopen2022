@@ -1,16 +1,5 @@
-.notification {
-  background: lightgrey;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.fails {
-  color: red;
-}
-
-.succeeds {
-  color: green;
+body {
+  background-color: #eff3f8;
+  /* max-width: 1200px;
+  margin: auto; */
 }

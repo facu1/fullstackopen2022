@@ -1,0 +1,13 @@
+.comment-form {
+  display: flex;
+  width: 100%;
+}
+
+.comment-form__input {
+  width: 70%;
+  margin-right: 1em
+}
+
+.comment-form__button {
+  width: 30%;
+}

@@ -1,0 +1,34 @@
+.blog {
+  width: 35em;
+  margin: auto;
+  margin-top: 2em;
+}
+
+.blog__link {
+  display: block;
+  padding-bottom: 1em;
+}
+
+.blog__buttons {
+  margin-bottom: 1em !important;
+}
+
+.blog__like-btn {
+  margin-right: .25em !important;
+}
+
+.blog__comments {
+  text-align: start;
+}
+
+.blog__comment {
+  background-color: #eff3f8 !important;
+}
+
+.blog__comment .p-card-body {
+  margin: 10px;
+}
+
+.blog__comment .p-card-body .p-card-content {
+  padding: 0 !important;
+}

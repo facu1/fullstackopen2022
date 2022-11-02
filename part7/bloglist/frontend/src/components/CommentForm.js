@@ -3,6 +3,11 @@ import { useDispatch } from 'react-redux'
 import { useMatch } from 'react-router-dom'
 import { createComment } from '../reducers/blogReducer'
 
+import { Button } from 'primereact/button'
+import { InputText } from 'primereact/inputtext'
+
+import './CommentForm.css'
+
 const CommentForm = () => {
   const [comment, setComment] = useState('')
 
@@ -21,9 +26,17 @@ const CommentForm = () => {
     setComment(e.target.value)
   }
   return (
-    <form onSubmit={handleSubmit}>
-      <input value={comment} onChange={handleChange} />
-      <button type="submit">add comment</button>
+    <form className="comment-form" onSubmit={handleSubmit}>
+      <InputText
+        className="comment-form__input"
+        value={comment}
+        onChange={handleChange}
+      />
+      <Button
+        className="comment-form__button"
+        label="Add Comment"
+        type="submit"
+      />
     </form>
   )
 }

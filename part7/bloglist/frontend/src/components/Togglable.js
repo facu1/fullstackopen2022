@@ -1,10 +1,12 @@
 import { useState, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 
+import { Button } from 'primereact/button'
+
+import './Togglable.css'
+
 const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
   const [visible, setVisible] = useState(false)
-
-  const hideStyle = { display: 'none' }
 
   const toggleVisibility = () => setVisible(!visible)
 
@@ -16,13 +18,13 @@ const Togglable = forwardRef(({ buttonLabel, children }, refs) => {
 
   return (
     <div>
-      <div style={visible ? hideStyle : {}}>
+      <div className={visible ? 'togglable' : ''}>
         <br />
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <Button onClick={toggleVisibility} label={buttonLabel} />
       </div>
-      <div style={visible ? {} : hideStyle}>
+      <div className={visible ? '' : 'togglable'}>
         {children}
-        <button onClick={toggleVisibility}>cancel</button>
+        <Button onClick={toggleVisibility} label="Cancel" />
       </div>
     </div>
   )

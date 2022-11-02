@@ -1,0 +1,12 @@
+.blog-form {
+  width: 25em;
+  text-align: center;
+}
+
+.blog-form__fields {
+  margin-bottom: 2em;
+}
+
+.blog-form__input {
+  width: 100%;
+}

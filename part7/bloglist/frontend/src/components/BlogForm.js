@@ -3,6 +3,12 @@ import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
 
+import { Button } from 'primereact/button'
+import { InputText } from 'primereact/inputtext'
+import { Card } from 'primereact/card'
+
+import './BlogForm.css'
+
 const BlogForm = ({ toggleVisibility }) => {
   const dispatch = useDispatch()
 
@@ -29,42 +35,41 @@ const BlogForm = ({ toggleVisibility }) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <h2>create new</h2>
-      <div>
-        title:
-        <input
-          id="title-input"
-          type="text"
-          value={title}
-          name="title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author:
-        <input
-          id="author-input"
-          type="text"
-          value={author}
-          name="author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:
-        <input
-          id="url-input"
-          type="text"
-          value={url}
-          name="url"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button id="submit-bttn" type="submit">
-        create
-      </button>
-    </form>
+    <Card className="blog-form" title="Create New">
+      <form onSubmit={addBlog}>
+        <span className="p-float-label blog-form__fields">
+          <InputText
+            id="title-input"
+            value={title}
+            name="title"
+            onChange={({ target }) => setTitle(target.value)}
+            className="blog-form__input"
+          />
+          <label htmlFor="title-input">Title</label>
+        </span>
+        <span className="p-float-label blog-form__fields">
+          <InputText
+            id="author-input"
+            value={author}
+            name="author"
+            onChange={({ target }) => setAuthor(target.value)}
+            className="blog-form__input"
+          />
+          <label htmlFor="author-input">Author</label>
+        </span>
+        <span className="p-float-label blog-form__fields">
+          <InputText
+            id="url-input"
+            value={url}
+            name="url"
+            onChange={({ target }) => setUrl(target.value)}
+            className="blog-form__input"
+          />
+          <label htmlFor="url-input">Url</label>
+        </span>
+        <Button label="Create" id="submit-bttn" />
+      </form>
+    </Card>
   )
 }
 

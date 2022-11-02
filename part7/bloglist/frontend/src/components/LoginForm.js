@@ -5,6 +5,12 @@ import { defineUser } from '../reducers/userReducer'
 import loginService from '../services/login'
 import Notification from './Notification'
 
+import { Card } from 'primereact/card'
+import { InputText } from 'primereact/inputtext'
+import { Button } from 'primereact/button'
+
+import './LoginForm.css'
+
 const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -28,33 +34,34 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <h1>log in to application</h1>
-      <Notification />
-      <div>
-        username
-        <input
-          id="username"
-          type="text"
-          value={username}
-          name="username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          id="password"
-          type="password"
-          value={password}
-          name="password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button id="login-button" type="submit">
-        login
-      </button>
-    </form>
+    <Card className="login-form" title="Log in to application">
+      <form onSubmit={handleLogin}>
+        <Notification />
+        <span className="p-float-label login-form__field">
+          <InputText
+            id="username"
+            className="login-form__input"
+            type="text"
+            value={username}
+            name="username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+          <label htmlFor="username">Username</label>
+        </span>
+        <span className="p-float-label login-form__field">
+          <InputText
+            id="password"
+            className="login-form__input"
+            type="password"
+            value={password}
+            name="password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+          <label htmlFor="password">Password</label>
+        </span>
+        <Button id="login-button" type="submit" label="Login" />
+      </form>
+    </Card>
   )
 }
 
